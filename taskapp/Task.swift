@@ -15,7 +15,11 @@ class Task: Object {
     
     @objc dynamic var contents = ""
     
+    @objc dynamic var category = ""
+    
     @objc dynamic var date = Date()
+    
+    @objc dynamic var isNotificationEnabled = false
     
     override static func primaryKey() -> String? {
         return "id"

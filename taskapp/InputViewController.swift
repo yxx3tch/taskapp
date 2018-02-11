@@ -13,29 +13,43 @@ import UserNotifications
 class InputViewController: UIViewController {
 
     @IBOutlet weak var titleTextField: UITextField!
+    @IBOutlet weak var categoryTextField: UITextField!
     @IBOutlet weak var contentsTextView: UITextView!
     @IBOutlet weak var datePicker: UIDatePicker!
+    @IBOutlet weak var notificationButton: UISwitch!
+
     
     var task: Task!
     let realm = try! Realm()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let saveButton: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.save, target: self, action: #selector(clickSaveButton))
+        self.navigationItem.setRightBarButton(saveButton, animated: true)
         let tapGesture: UITapGestureRecognizer = UITapGestureRecognizer(target:self, action:#selector(dismissKeyboard))
         self.view.addGestureRecognizer(tapGesture)
         titleTextField.text = task.title
+        categoryTextField.text = task.category
         contentsTextView.text = task.contents
         datePicker.date = task.date
+        notificationButton.isOn = task.isNotificationEnabled
+    }
+    
+    @objc func clickSaveButton() {
+        let alert: UIAlertController = UIAlertController(title: "タスク保存", message: "変更内容を保存しますか？", preferredStyle: UIAlertControllerStyle.alert)
+        let defaultAction: UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler:{
+            (action: UIAlertAction!) -> Void in
+            self.saveTask(task: self.task)
+        })
+        let cancelAction: UIAlertAction = UIAlertAction(title: "キャンセル", style: UIAlertActionStyle.cancel, handler:{
+            (action: UIAlertAction!) -> Void in
+        })
+        alert.addAction(cancelAction)
+        alert.addAction(defaultAction)
+        present(alert, animated: true, completion: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        try! realm.write {
-            self.task.title = self.titleTextField.text!
-            self.task.contents = self.contentsTextView.text
-            self.task.date = self.datePicker.date
-            self.realm.add(self.task, update: true)
-        }
-        setNotification(task: task)
         super.viewWillDisappear(animated)
     }
 
@@ -46,6 +60,20 @@ class InputViewController: UIViewController {
     
     @objc func dismissKeyboard(){
         view.endEditing(true)
+    }
+    
+    func saveTask(task :Task) {
+        try! realm.write {
+            self.task.title = self.titleTextField.text!
+            self.task.category = self.categoryTextField.text!
+            self.task.contents = self.contentsTextView.text
+            self.task.date = self.datePicker.date
+            self.task.isNotificationEnabled = self.notificationButton.isOn
+            self.realm.add(self.task, update: true)
+        }
+        if self.notificationButton.isOn {
+            setNotification(task: task)
+        }
     }
     
     func setNotification(task :Task) {
