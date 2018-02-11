@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Task List-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="taskapp" customModuleProvider="target" sceneMemberID="viewController">
@@ -21,7 +21,7 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="fhk-2f-J4L">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <searchBar key="tableHeaderView" contentMode="redraw" id="5e1-Ni-VZ8">
+                                <searchBar key="tableHeaderView" contentMode="redraw" placeholder="Search by Category" id="5e1-Ni-VZ8">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                     <textInputTraits key="textInputTraits"/>
@@ -63,10 +63,10 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" id="opM-Mf-U3t">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="etD-wU-Ja2">
+                    <navigationItem key="navigationItem" title="Task List" id="hpc-G8-k0U">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="YoP-gH-Myo">
                             <connections>
-                                <segue destination="j0w-TU-qty" kind="show" id="tpr-ka-fVq"/>
+                                <segue destination="j0w-TU-qty" kind="show" id="QQ1-Ie-vTm"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -80,7 +80,7 @@
             </objects>
             <point key="canvasLocation" x="476" y="133.5832083958021"/>
         </scene>
-        <!--Input View Controller-->
+        <!--New Task-->
         <scene sceneID="GdK-tV-chF">
             <objects>
                 <viewController id="j0w-TU-qty" customClass="InputViewController" customModule="taskapp" customModuleProvider="target" sceneMemberID="viewController">
@@ -181,17 +181,61 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="8Z0-9s-fa0"/>
                     </view>
+                    <navigationItem key="navigationItem" title="New Task" id="iPU-4m-54G"/>
                     <connections>
                         <outlet property="categoryTextField" destination="p8C-51-5UA" id="BtU-Hd-EjR"/>
                         <outlet property="contentsTextView" destination="g0M-ZK-tK4" id="8Sz-03-9ff"/>
                         <outlet property="datePicker" destination="bFL-9d-hof" id="Dm1-jy-z1q"/>
                         <outlet property="notificationButton" destination="Gqa-Pl-kuT" id="6M5-ip-DXk"/>
+                        <outlet property="titleText" destination="iPU-4m-54G" id="tHL-9d-OUk"/>
                         <outlet property="titleTextField" destination="1Va-7U-PNo" id="yVl-Ym-pBC"/>
+                        <segue destination="46f-G7-EwW" kind="show" identifier="NewCategorySegue" id="t6s-4p-PSf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="atG-V5-BZI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1128.8" y="133.5832083958021"/>
+        </scene>
+        <!--New Category-->
+        <scene sceneID="hNz-C7-rou">
+            <objects>
+                <viewController id="46f-G7-EwW" customClass="NewCategoryViewController" customModule="taskapp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="G7t-Tr-oR4">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="カテゴリー名" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a5z-EP-8le">
+                                <rect key="frame" x="10" y="74" width="355" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DPF-qV-WVL">
+                                <rect key="frame" x="10" y="105" width="355" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="f0J-ub-Pba" firstAttribute="trailing" secondItem="DPF-qV-WVL" secondAttribute="trailing" constant="10" id="62Q-kc-qxP"/>
+                            <constraint firstItem="f0J-ub-Pba" firstAttribute="trailing" secondItem="a5z-EP-8le" secondAttribute="trailing" constant="10" id="7K0-c5-S1t"/>
+                            <constraint firstItem="DPF-qV-WVL" firstAttribute="leading" secondItem="f0J-ub-Pba" secondAttribute="leading" constant="10" id="mEl-Xz-iyF"/>
+                            <constraint firstItem="DPF-qV-WVL" firstAttribute="top" secondItem="a5z-EP-8le" secondAttribute="bottom" constant="10" id="pyH-jO-BGf"/>
+                            <constraint firstItem="a5z-EP-8le" firstAttribute="top" secondItem="f0J-ub-Pba" secondAttribute="top" constant="10" id="yeE-wx-WW6"/>
+                            <constraint firstItem="a5z-EP-8le" firstAttribute="leading" secondItem="f0J-ub-Pba" secondAttribute="leading" constant="10" id="zho-CF-SbI"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="f0J-ub-Pba"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="New Category" id="CHd-w8-xpd"/>
+                    <connections>
+                        <outlet property="categoryNameTextField" destination="DPF-qV-WVL" id="OGk-e9-Kyf"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="YTY-CC-62k" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1823" y="134"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="1oE-22-yDt">
@@ -213,6 +257,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="tpr-ka-fVq"/>
+        <segue reference="Vrc-pM-GnU"/>
     </inferredMetricsTieBreakers>
 </document>

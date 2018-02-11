@@ -14,6 +14,8 @@
 		DC5153DC202F3067008062F6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC5153DB202F3067008062F6 /* Assets.xcassets */; };
 		DC5153DF202F3067008062F6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DC5153DD202F3067008062F6 /* LaunchScreen.storyboard */; };
 		DC5153E7202F33F5008062F6 /* InputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC5153E6202F33F5008062F6 /* InputViewController.swift */; };
+		DCEA18C5203025E200351CEE /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCEA18C4203025E200351CEE /* Category.swift */; };
+		DCEA18C72030486900351CEE /* NewCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCEA18C62030486900351CEE /* NewCategoryViewController.swift */; };
 		F669B44333F985FA91A055F4 /* Pods_taskapp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FAF72050A33CDF3BE0B19E4 /* Pods_taskapp.framework */; };
 /* End PBXBuildFile section */
 
@@ -30,6 +32,8 @@
 		DC5153DE202F3067008062F6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DC5153E0202F3067008062F6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DC5153E6202F33F5008062F6 /* InputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputViewController.swift; sourceTree = "<group>"; };
+		DCEA18C4203025E200351CEE /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		DCEA18C62030486900351CEE /* NewCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCategoryViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +94,8 @@
 				DC5153E0202F3067008062F6 /* Info.plist */,
 				DC5153E6202F33F5008062F6 /* InputViewController.swift */,
 				DC397636202F4056002DE1B7 /* Task.swift */,
+				DCEA18C4203025E200351CEE /* Category.swift */,
+				DCEA18C62030486900351CEE /* NewCategoryViewController.swift */,
 			);
 			path = taskapp;
 			sourceTree = "<group>";
@@ -226,6 +232,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				DC397637202F4056002DE1B7 /* Task.swift in Sources */,
+				DCEA18C72030486900351CEE /* NewCategoryViewController.swift in Sources */,
+				DCEA18C5203025E200351CEE /* Category.swift in Sources */,
 				DC5153E7202F33F5008062F6 /* InputViewController.swift in Sources */,
 				DC5153D7202F3067008062F6 /* ViewController.swift in Sources */,
 				DC5153D5202F3067008062F6 /* AppDelegate.swift in Sources */,

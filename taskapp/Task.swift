@@ -15,7 +15,7 @@ class Task: Object {
     
     @objc dynamic var contents = ""
     
-    @objc dynamic var category = ""
+    @objc dynamic var category: Category?
     
     @objc dynamic var date = Date()
     

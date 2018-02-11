@@ -10,14 +10,17 @@ import UIKit
 import RealmSwift
 import UserNotifications
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
     
-    let realm = try! Realm()
+    var pickerView: UIPickerView = UIPickerView()
+    var searchBarTextField: UITextField!
     
+    let realm = try! Realm()
     var taskArray = try! Realm().objects(Task.self).sorted(byKeyPath: "date", ascending: false)
+    var categoryArray = try! Realm().objects(Category.self).sorted(byKeyPath: "id", ascending: false)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,16 +28,58 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.delegate = self
         tableView.dataSource = self
         searchBar.delegate = self
+        pickerView.delegate = self
+        pickerView.dataSource = self
+        pickerView.showsSelectionIndicator = true
+        pickerView.selectRow(0, inComponent: 0, animated: true)
+        
+        let toolbar = UIToolbar(frame: CGRectMake(0, 0, 0, 35))
+        let doneItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(done))
+        let cancelItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel))
+        let flexibleItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        toolbar.setItems([cancelItem, flexibleItem, doneItem], animated: true)
+
+        searchBarTextField = searchBar.subviews.first?.subviews.flatMap { $0 as? UITextField }.first
+        self.searchBarTextField.inputView = pickerView
+        self.searchBarTextField.inputAccessoryView = toolbar
+    }
+    
+    @objc func done() {
+        self.searchBar.endEditing(true)
+        self.searchByCategory()
+    }
+    
+    @objc func cancel() {
+        self.searchBar.endEditing(true)
+        self.searchBar.text = ""
+        self.searchByCategory()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        categoryArray = try! Realm().objects(Category.self).sorted(byKeyPath: "id", ascending: false)
         tableView.reloadData()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return self.categoryArray.count + 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return row != 0 ? self.categoryArray[row - 1].name : ""
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        self.searchBar.text = row != 0 ? self.categoryArray[row - 1].name : ""
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -88,14 +133,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.endEditing(true)
+    func searchByCategory() {
         if searchBar.text != "" {
-            taskArray = try! Realm().objects(Task.self).filter("category = %@", searchBar.text!).sorted(byKeyPath: "date", ascending: false)
+            taskArray = try! Realm().objects(Task.self).filter("category.name = %@", searchBar.text!).sorted(byKeyPath: "date", ascending: false)
         } else {
             taskArray = try! Realm().objects(Task.self).sorted(byKeyPath: "date", ascending: false)
         }
         tableView.reloadData()
+    }
+    
+    func CGRectMake(_ x: CGFloat, _ y: CGFloat, _ width: CGFloat, _ height: CGFloat) -> CGRect {
+        return CGRect(x: x, y: y, width: width, height: height)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -104,6 +152,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         if segue.identifier == "cellSegue" {
             let indexPath = self.tableView.indexPathForSelectedRow
             inputViewController.task = taskArray[indexPath!.row]
+            inputViewController.editState = "Edit Task"
         } else {
             let task = Task()
             task.date = Date()
@@ -113,6 +162,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 task.id = taskArray.max(ofProperty: "id")! + 1
             }
             inputViewController.task = task
+            inputViewController.editState = "New Task"
         }
     }
 
